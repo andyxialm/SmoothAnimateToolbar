@@ -28,6 +28,9 @@ import android.widget.ScrollView;
  * Description : Custom ScrollView
  */
 public class SmoothScrollView extends ScrollView {
+
+    private OnScrollChangedListener mOnScrollChangedListener;
+
     public SmoothScrollView(Context context) {
         super(context);
     }
@@ -44,8 +47,6 @@ public class SmoothScrollView extends ScrollView {
     public SmoothScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
-
-    private OnScrollChangedListener mOnScrollChangedListener;
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {

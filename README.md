@@ -15,7 +15,7 @@ A custom Toolbar with animation for Android.
         satb:animDuration="800"
         satb:scrollThreshold="10">
         ...
-    </cn.refactor.smoothanimatetoolbar.SmoothAnimateToolbar>
+</cn.refactor.smoothanimatetoolbar.SmoothAnimateToolbar>
 ~~~
 
 ##### If you want to use with SmoothScrollView, edit your layout XML:
