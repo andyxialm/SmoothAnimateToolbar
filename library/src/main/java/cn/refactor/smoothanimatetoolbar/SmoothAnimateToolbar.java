@@ -19,9 +19,16 @@ package cn.refactor.smoothanimatetoolbar;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ListView;
+
+import cn.refactor.smoothanimatetoolbar.listeners.OnListViewScrollChangedListener;
+import cn.refactor.smoothanimatetoolbar.listeners.OnRecyclerViewScrollChangedListener;
+import cn.refactor.smoothanimatetoolbar.listeners.OnSmoothScrollViewScrollChangedListener;
 
 /**
  * Create by andy (https://github.com/andyxialm)
@@ -63,27 +70,91 @@ public class SmoothAnimateToolbar extends Toolbar {
     }
 
     /**
+     * Attach view to set scrollChangedListener
+     * @param view target View
+     */
+    public void attach(View view) {
+        if (view instanceof SmoothScrollView) {
+            attachToScrollView((SmoothScrollView) view);
+        } else if (view instanceof RecyclerView) {
+            attachToRecycerView((RecyclerView) view);
+        } else if (view instanceof ListView) {
+            attachToListView((ListView) view);
+        } else {
+            throw new RuntimeException("Boom! Not support this view");
+        }
+    }
+
+    /**
      * Attach ScrollView to this toolbar
-     * @param scrollView attach ScrollView
+     * @param scrollView SmoothScrollView
      */
     public void attachToScrollView(SmoothScrollView scrollView) {
         if (scrollView == null) {
             throw new RuntimeException("Boom! ScrollView is null");
         }
 
-        SmoothOnScrollChangeListener smoothOnScrollChangeListener = new SmoothOnScrollChangeListener() {
+        OnSmoothScrollViewScrollChangedListener onScrollChangedListener = new OnSmoothScrollViewScrollChangedListener() {
             @Override
-            void onScrollUp() {
+            public void onScrollUp() {
                 hide();
             }
 
             @Override
-            void onScrollDown() {
+            public void onScrollDown() {
                 show();
             }
         };
-        smoothOnScrollChangeListener.setScrollThreshold(mScrollThreshold);
-        scrollView.setOnScrollChangedListener(smoothOnScrollChangeListener);
+        onScrollChangedListener.setScrollThreshold(mScrollThreshold);
+        scrollView.setOnScrollChangedListener(onScrollChangedListener);
+    }
+
+    /**
+     * Attach RecyclerView to this toolbar
+     * @param recyclerView RecyclerView
+     */
+    public void attachToRecycerView(RecyclerView recyclerView) {
+        if (recyclerView == null) {
+            throw new RuntimeException("Boom! RecyclerView is null");
+        }
+
+        OnRecyclerViewScrollChangedListener onScrollChangedListener = new OnRecyclerViewScrollChangedListener() {
+            @Override
+            public void onScrollUp() {
+                hide();
+            }
+
+            @Override
+            public void onScrollDown() {
+                show();
+            }
+        };
+        onScrollChangedListener.setScrollThreshold(mScrollThreshold);
+        recyclerView.addOnScrollListener(onScrollChangedListener);
+    }
+
+    /**
+     * Attach ListView to this toolbar
+     * @param listView ListView
+     */
+    public void attachToListView(ListView listView) {
+        if (listView == null) {
+            throw new RuntimeException("Boom! ListView is null");
+        }
+
+        OnListViewScrollChangedListener onScrollChangedListener = new OnListViewScrollChangedListener() {
+            @Override
+            public void onScrollUp() {
+                hide();
+            }
+
+            @Override
+            public void onScrollDown() {
+                show();
+            }
+        };
+        onScrollChangedListener.setListView(listView);
+        onScrollChangedListener.setScrollThreshold(mScrollThreshold);
     }
 
     /**
@@ -97,7 +168,7 @@ public class SmoothAnimateToolbar extends Toolbar {
 
     /**
      * Set scroll threshold. Animation will start when the scroll dY reach to the threshold.
-     * @param scrollThreshold
+     * @param scrollThreshold scroll threshold
      */
     @SuppressWarnings("unused")
     public void setScrollThreshold(int scrollThreshold) {

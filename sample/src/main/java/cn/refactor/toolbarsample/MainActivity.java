@@ -1,9 +1,8 @@
 package cn.refactor.toolbarsample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import cn.refactor.smoothanimatetoolbar.SmoothAnimateToolbar;
@@ -11,17 +10,15 @@ import cn.refactor.smoothanimatetoolbar.SmoothScrollView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private SmoothAnimateToolbar mToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (SmoothAnimateToolbar) findViewById(R.id.toolbar);
-        mToolbar.findViewById(R.id.btn_1_toolbar).setOnClickListener(this);
-        mToolbar.findViewById(R.id.btn_2_toolbar).setOnClickListener(this);
-        mToolbar.attachToScrollView(((SmoothScrollView) findViewById(R.id.scrollView)));
+        SmoothAnimateToolbar toolbar = (SmoothAnimateToolbar) findViewById(R.id.toolbar);
+        toolbar.findViewById(R.id.btn_1_toolbar).setOnClickListener(this);
+        toolbar.findViewById(R.id.btn_2_toolbar).setOnClickListener(this);
+        toolbar.attachToScrollView(((SmoothScrollView) findViewById(R.id.scrollView)));
     }
 
     @Override

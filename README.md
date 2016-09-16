@@ -47,17 +47,29 @@ A custom Toolbar with animation for Android.
 ~~~
 
 ##### Java code:
-~~~ xml
-mToolbar.attachToScrollView(scrollView);
-~~~
+```java
+mToolbar.attachToScrollView(smoothScrollView);
+```
+```java
+mToolbar.attachToRecyclerView(recyclerView);
+```
+```java
+mToolbar.attachToListView(listView);
+```
+```java
+mToolbar.attach(view); // SmoothScrollView or RecyclerView or ListView
+```
 
-~~~ xml
+```java
 mToolbar.show();
-~~~
+```
 
-~~~ xml
+```java
 mToolbar.hide();
-~~~
+```
+
+##### Credits
+  [FloatingActionButton](https://github.com/makovkastar/FloatingActionButton)
 
 ### License
 

@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package cn.refactor.smoothanimatetoolbar;
+package cn.refactor.smoothanimatetoolbar.listeners;
 
 import android.widget.ScrollView;
+
+import cn.refactor.smoothanimatetoolbar.SmoothScrollView;
 
 /**
  * Create by andy (https://github.com/andyxialm)
  * Create time: 16/9/14 15:46
  * Description : ScrollUp and scrollDown listener
  */
-public abstract class SmoothOnScrollChangeListener implements SmoothScrollView.OnScrollChangedListener {
+public abstract class OnSmoothScrollViewScrollChangedListener implements SmoothScrollView.OnScrollChangedListener, BaseScrollListener {
     private int mLastScrollY;
     private int mScrollThreshold;
-
-    abstract void onScrollUp();
-
-    abstract void onScrollDown();
 
     @Override
     public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
