@@ -155,6 +155,7 @@ public class SmoothAnimateToolbar extends Toolbar {
         };
         onScrollChangedListener.setListView(listView);
         onScrollChangedListener.setScrollThreshold(mScrollThreshold);
+        listView.setOnScrollListener(onScrollChangedListener);
     }
 
     /**
