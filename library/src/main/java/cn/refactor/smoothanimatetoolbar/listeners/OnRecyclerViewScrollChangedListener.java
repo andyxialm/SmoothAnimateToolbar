@@ -10,15 +10,22 @@ import android.support.v7.widget.RecyclerView;
 public abstract class OnRecyclerViewScrollChangedListener extends RecyclerView.OnScrollListener implements BaseScrollListener {
 
     private int mScrollThreshold;
+    private boolean mLastScrollDirectionToUp;
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
         if (isSignificantDelta) {
             if (dy > 0) {
-                onScrollUp();
+                if (!mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = true;
+                    onScrollUp();
+                }
             } else {
-                onScrollDown();
+                if (mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = false;
+                    onScrollDown();
+                }
             }
         }
     }

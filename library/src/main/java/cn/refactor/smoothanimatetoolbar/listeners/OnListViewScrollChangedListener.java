@@ -10,10 +10,11 @@ import android.widget.AbsListView;
  * Description : ScrollUp and scrollDown listener
  */
 public abstract class OnListViewScrollChangedListener implements BaseScrollListener, AbsListView.OnScrollListener {
+    private AbsListView mListView;
     private int mLastScrollY;
     private int mPreviousFirstVisibleItem;
-    private AbsListView mListView;
     private int mScrollThreshold;
+    private boolean mLastScrollDirectionToUp;
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -27,17 +28,29 @@ public abstract class OnListViewScrollChangedListener implements BaseScrollListe
             boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
             if (isSignificantDelta) {
                 if (mLastScrollY > newScrollY) {
-                    onScrollUp();
+                    if (!mLastScrollDirectionToUp) {
+                        mLastScrollDirectionToUp = true;
+                        onScrollUp();
+                    }
                 } else {
-                    onScrollDown();
+                    if (mLastScrollDirectionToUp) {
+                        mLastScrollDirectionToUp = false;
+                        onScrollDown();
+                    }
                 }
             }
             mLastScrollY = newScrollY;
         } else {
             if (firstVisibleItem > mPreviousFirstVisibleItem) {
-                onScrollUp();
+                if (!mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = true;
+                    onScrollUp();
+                }
             } else {
-                onScrollDown();
+                if (mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = false;
+                    onScrollDown();
+                }
             }
 
             mLastScrollY = getTopItemScrollY();

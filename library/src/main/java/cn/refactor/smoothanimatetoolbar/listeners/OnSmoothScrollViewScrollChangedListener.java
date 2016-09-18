@@ -28,15 +28,22 @@ import cn.refactor.smoothanimatetoolbar.SmoothScrollView;
 public abstract class OnSmoothScrollViewScrollChangedListener implements SmoothScrollView.OnScrollChangedListener, BaseScrollListener {
     private int mLastScrollY;
     private int mScrollThreshold;
+    private boolean mLastScrollDirectionToUp;
 
     @Override
     public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
         boolean isSignificantDelta = Math.abs(t - mLastScrollY) > mScrollThreshold;
         if (isSignificantDelta) {
             if (t > mLastScrollY) {
-                onScrollUp();
+                if (!mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = true;
+                    onScrollUp();
+                }
             } else {
-                onScrollDown();
+                if (mLastScrollDirectionToUp) {
+                    mLastScrollDirectionToUp = false;
+                    onScrollDown();
+                }
             }
         }
         mLastScrollY = t;
