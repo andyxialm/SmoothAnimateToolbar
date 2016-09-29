@@ -17,6 +17,7 @@ import cn.refactor.toolbarsample.R;
 import cn.refactor.toolbarsample.fragment.ListViewFragment;
 import cn.refactor.toolbarsample.fragment.RecyclerViewFragment;
 import cn.refactor.toolbarsample.fragment.ScrollViewFragment;
+import cn.refactor.toolbarsample.fragment.WebViewFragment;
 import cn.refactor.toolbarsample.fragment.base.BaseFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setupViews() {
         mToolbar = (SmoothAnimateToolbar) findViewById(R.id.toolbar);
         assert mToolbar != null;
-        mToolbar.findViewById(R.id.btn_1_toolbar).setOnClickListener(this);
-        mToolbar.findViewById(R.id.btn_2_toolbar).setOnClickListener(this);
+        mToolbar.findViewById(R.id.iv_left).setOnClickListener(this);
+        mToolbar.findViewById(R.id.iv_right).setOnClickListener(this);
 
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.recycler_view))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.list_view))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.scroll_view))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.web_view))
                 .initialise();
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener(){
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFragmentList.add(RecyclerViewFragment.newInstance());
         mFragmentList.add(ListViewFragment.newInstance());
         mFragmentList.add(ScrollViewFragment.newInstance());
+        mFragmentList.add(WebViewFragment.newInstance());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, mFragmentList.get(0));
@@ -103,11 +106,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_1_toolbar:
-                Toast.makeText(this, "Click left button.", Toast.LENGTH_SHORT).show();
+            case R.id.iv_left:
+                Toast.makeText(this, "Click left ImageView.", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.btn_2_toolbar:
-                Toast.makeText(this, "Click right button.", Toast.LENGTH_SHORT).show();
+            case R.id.iv_right:
+                Toast.makeText(this, "Click right ImageView.", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -20,23 +20,27 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.webkit.WebView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import cn.refactor.smoothanimatetoolbar.listeners.OnListViewScrollChangedListener;
 import cn.refactor.smoothanimatetoolbar.listeners.OnRecyclerViewScrollChangedListener;
 import cn.refactor.smoothanimatetoolbar.listeners.OnSmoothScrollViewScrollChangedListener;
+import cn.refactor.smoothanimatetoolbar.listeners.OnSmoothWebViewScrollChangedListener;
 
 /**
  * Create by andy (https://github.com/andyxialm)
  * Create time: 16/9/14 15:19
  * Description : Toolbar with animation linkage ScrollView
  */
-public class SmoothAnimateToolbar extends Toolbar {
+public class SmoothAnimateToolbar extends RelativeLayout {
 
+    private static final String TAG                   = SmoothAnimateToolbar.class.getSimpleName();
     private static final int DEFAULT_ANIM_DURATION    = 1000;
     private static final int DEFAULT_SCROLL_THRESHOLD = 10;
 
@@ -76,13 +80,40 @@ public class SmoothAnimateToolbar extends Toolbar {
     public void attach(View view) {
         if (view instanceof SmoothScrollView) {
             attachToScrollView((SmoothScrollView) view);
+        } else if (view instanceof SmoothWebView) {
+            attachToWebView((SmoothWebView) view);
         } else if (view instanceof RecyclerView) {
-            attachToRecycerView((RecyclerView) view);
+            attachToRecyclerView((RecyclerView) view);
         } else if (view instanceof ListView) {
             attachToListView((ListView) view);
         } else {
-            throw new RuntimeException("Boom! Not support this view");
+            Log.i(TAG, "Boom! Not support this view");
         }
+    }
+
+    /**
+     * Attach WebView to this toolbar
+     * @param webView WebView
+     */
+    public void attachToWebView(SmoothWebView webView) {
+        if (webView == null) {
+            Log.i(TAG, "Boom! WebView is null");
+            return;
+        }
+
+        OnSmoothWebViewScrollChangedListener onScrollChangedListener = new OnSmoothWebViewScrollChangedListener() {
+            @Override
+            public void onScrollUp() {
+                hide();
+            }
+
+            @Override
+            public void onScrollDown() {
+                show();
+            }
+        };
+        onScrollChangedListener.setScrollThreshold(mScrollThreshold);
+        webView.setOnScrollChangedListener(onScrollChangedListener);
     }
 
     /**
@@ -91,7 +122,8 @@ public class SmoothAnimateToolbar extends Toolbar {
      */
     public void attachToScrollView(SmoothScrollView scrollView) {
         if (scrollView == null) {
-            throw new RuntimeException("Boom! ScrollView is null");
+            Log.i(TAG, "Boom! ScrollView is null");
+            return;
         }
 
         OnSmoothScrollViewScrollChangedListener onScrollChangedListener = new OnSmoothScrollViewScrollChangedListener() {
@@ -113,9 +145,10 @@ public class SmoothAnimateToolbar extends Toolbar {
      * Attach RecyclerView to this toolbar
      * @param recyclerView RecyclerView
      */
-    public void attachToRecycerView(RecyclerView recyclerView) {
+    public void attachToRecyclerView(RecyclerView recyclerView) {
         if (recyclerView == null) {
-            throw new RuntimeException("Boom! RecyclerView is null");
+            Log.i(TAG, "Boom! RecyclerView is null");
+            return;
         }
 
         OnRecyclerViewScrollChangedListener onScrollChangedListener = new OnRecyclerViewScrollChangedListener() {
@@ -139,7 +172,8 @@ public class SmoothAnimateToolbar extends Toolbar {
      */
     public void attachToListView(ListView listView) {
         if (listView == null) {
-            throw new RuntimeException("Boom! ListView is null");
+            Log.i(TAG, "Boom! ListView is null");
+            return;
         }
 
         OnListViewScrollChangedListener onScrollChangedListener = new OnListViewScrollChangedListener() {
