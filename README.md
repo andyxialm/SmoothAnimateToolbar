@@ -57,7 +57,7 @@ mToolbar.attachToRecyclerView(recyclerView);
 mToolbar.attachToListView(listView);
 ```
 ```java
-mToolbar.attach(view); // SmoothScrollView or RecyclerView or ListView
+mToolbar.attach(view); // SmoothScrollView or SmoothWebView or RecyclerView or ListView
 ```
 
 ```java
