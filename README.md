@@ -3,6 +3,7 @@
 
 A custom Toolbar with animation for Android.
 
+![](https://github.com/andyxialm/SmoothAnimateToolbar/blob/master/art/screenshot.gif?raw=true)
 ### Usage
 	
 ##### Edit your layout XML:
